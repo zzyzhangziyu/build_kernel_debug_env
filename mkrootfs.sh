@@ -20,7 +20,7 @@ mount | grep -q loop
 [ -d $TARGET_DIR ] && rm -rf $TARGET_DIR/
 [ -f rootfs ] && rm -f rootfs
 [ -f rootfs.gz ] && rm -f rootfs.gz
-
+[ -f rootfs.cpio ] && rm -f rootfs.cpio
 
 # prepare root file system and mount as loopback
 dd if=/dev/zero of=rootfs bs=1k count=$FSSIZE
@@ -44,11 +44,14 @@ cp -a etc $TARGET_DIR
 mkdir $TARGET_DIR/initrd
 mkdir $TARGET_DIR/proc
 
-#cd $TARGET_DIR
-#cpio -id -I ../rootfs.cpio 
-#cd $BASE_DIR
+#cpio initramfs
+cd $TARGET_DIR
+find . | cpio -o -H newc | gzip > ../rootfs.cpio
+cd $BASE_DIR
 
 chmod 777 rootfs
+chmod 777 rootfs.cpio
+
 # Done. Maybe do cleanup.
 if [ $CLEANUP -eq 1 ]
 then
