@@ -6,11 +6,9 @@
 # command-line settable variables
 BUSYBOX_DIR=_install/
 TARGET_DIR=./loop
-FSSIZE=4000
+FSSIZE=16000
 CLEANUP=1
 MKFS='mkfs.ext2 -F'
-
-# don't-touch variables
 BASE_DIR=`pwd`
 
 
@@ -43,6 +41,7 @@ cp -a etc $TARGET_DIR
 # other miscellaneous setup
 mkdir $TARGET_DIR/initrd
 mkdir $TARGET_DIR/proc
+mkdir $TARGET_DIR/lib
 
 #cpio initramfs
 cd $TARGET_DIR
